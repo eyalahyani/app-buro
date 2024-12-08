@@ -40,6 +40,7 @@ public class TypePieceRechangeServiceImpl implements TypePieceRechangeService {
 		TypePiece typePieceR = this.findTypePieceById(tP.getId());
 		if (typePieceR!=null) {
         	typePieceR.setType(tP.getType());
+			typePieceR.setTarifH(tP.getTarifH());
 			return this.addTypePiece(typePieceR);
         }
 		else{
@@ -49,15 +50,14 @@ public class TypePieceRechangeServiceImpl implements TypePieceRechangeService {
 
 	@Override
 	public void deleteTypePiece(Long id) {
-		TypePiece typePiece = this.findTypePieceById(id);
-        if (typePiece!=null) {
-			typePieceRepo.delete(typePiece);
+			TypePiece typePiece = this.findTypePieceById(id); // Recherche de l'objet
+			if (typePiece != null) {
+				typePieceRepo.delete(typePiece); // Suppression si l'objet existe
+			} else {
+				// Vous pouvez ajouter un traitement ici si l'objet n'existe pas
+				throw new RuntimeException("TypePiece not found with id: " + id);
         }		
 	}
-	
- 
-    
-
 	
 	
 }

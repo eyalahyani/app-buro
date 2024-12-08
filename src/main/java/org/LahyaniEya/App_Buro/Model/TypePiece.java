@@ -17,4 +17,6 @@ public class TypePiece {
     @NonNull
     private String type;
     
+    @NonNull
+    private double tarifH;
 }

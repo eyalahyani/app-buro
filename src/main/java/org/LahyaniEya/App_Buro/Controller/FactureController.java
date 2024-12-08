@@ -2,7 +2,6 @@ package org.LahyaniEya.App_Buro.Controller;
 
 import java.util.List;
 
-import org.LahyaniEya.App_Buro.Model.Client;
 import org.LahyaniEya.App_Buro.Model.Facture;
 import org.LahyaniEya.App_Buro.Service.FactureServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;

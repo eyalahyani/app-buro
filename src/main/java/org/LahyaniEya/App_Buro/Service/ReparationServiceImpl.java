@@ -1,6 +1,8 @@
 package org.LahyaniEya.App_Buro.Service;
 
 import java.util.List;
+
+import org.LahyaniEya.App_Buro.Model.DemandeReparation;
 import org.LahyaniEya.App_Buro.Model.Reparation;
 import org.LahyaniEya.App_Buro.Repository.ReparationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,5 +68,15 @@ public class ReparationServiceImpl implements ReparationService {
 	}
 
 	
+
+	@Override
+	public Boolean findByDemandeReparation(DemandeReparation demandereparation) {
+		return reparationRepo.existsByDemandeReparation(demandereparation);   
+	}
+	
+	@Override
+	public Long getReparationIdByDemandeReparationId(Long demandeReparationId) {
+        return reparationRepo.findReparationIdByDemandeReparationId(demandeReparationId);
+    }
 	
 }

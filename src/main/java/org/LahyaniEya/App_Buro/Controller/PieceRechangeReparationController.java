@@ -3,7 +3,6 @@ package org.LahyaniEya.App_Buro.Controller;
 
 import java.util.List;
 
-import org.LahyaniEya.App_Buro.Model.Client;
 import org.LahyaniEya.App_Buro.Model.PieceRechangeReparation;
 import org.LahyaniEya.App_Buro.Model.Reparation;
 import org.LahyaniEya.App_Buro.Service.PieceRechangeReparationSeviceImpl;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.NonNull;

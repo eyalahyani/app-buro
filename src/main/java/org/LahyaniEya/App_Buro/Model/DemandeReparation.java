@@ -22,7 +22,6 @@ public class DemandeReparation {
     private String etat;
     @NonNull @Setter
     private String symptomesPanne;
-
     @ManyToOne
     @NonNull @Setter
     @JoinColumn(name = "client_id", nullable = false)

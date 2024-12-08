@@ -35,11 +35,11 @@ public class TypePieceRechangeController {
 	        return typePieceRechangeServImp.addTypePiece(savedTypePiece);
 	    }
 
-	    @GetMapping("/TypePieceRechange/{id}")
-	    public TypePiece getTypePieceById(@PathVariable Long id) {
-	        return typePieceRechangeServImp.findTypePieceById(id);
-	    }
-
+		@GetMapping("/TypePieceRechange/{id}")
+		public TypePiece getTypePieceById(@PathVariable Long id) {
+			return typePieceRechangeServImp.findTypePieceById(id);
+		}
+		
 	    @PutMapping("/updateTypePieceRechange")
 	    public TypePiece updateTypePiece(@RequestBody TypePiece typePiece) {
 	        return typePieceRechangeServImp.updateTypePiece(typePiece);

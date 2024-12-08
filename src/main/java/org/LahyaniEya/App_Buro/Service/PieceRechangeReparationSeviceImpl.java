@@ -28,13 +28,16 @@ public class PieceRechangeReparationSeviceImpl implements PieceRechangeReparatio
 	
 	@Override
 	public PieceRechangeReparation addPieceRechangeReparation(PieceRechangeReparation pRR) {
-	    if (pRR.getQte() <= 0) {
-	        throw new IllegalArgumentException("La quantité doit être supérieure à zéro.");
-	    }
-	    
+		PieceRechange pieceRechange = pieceRechangeSerImp.findById(pRR.getPieceRechange().getId());
+		List<PieceRechangeReparation>  pieceRR = pieceRechangeReparationRepo.findByReparation(pRR.getReparation());
+		for (PieceRechangeReparation pr : pieceRR){
+			
+			if (pRR.getPieceRechange().equals(pr.getPieceRechange()) && ((pieceRechange.getQteDisp() >= (pRR.getQte() - pr.getQte())))) {
+				pr.setQte(pRR.getQte());
+				return pieceRechangeReparationRepo.save(pr);
+			}
+		}
 
-	    PieceRechange pieceRechange = pieceRechangeSerImp.findById(pRR.getPieceRechange().getId());
-	    List<PieceRechangeReparation> p=this.findAllPieceRechangeReparation();
 	    if (pieceRechange.getQteDisp() >= pRR.getQte()) {
 	        pieceRechange.setQteDisp(pieceRechange.getQteDisp() - pRR.getQte());
 	        pieceRechangeSerImp.addPieceRechange(pieceRechange);
@@ -72,7 +75,7 @@ public class PieceRechangeReparationSeviceImpl implements PieceRechangeReparatio
 	    PieceRechangeReparation existingPRR = this.findPieceRechangeReparationById(pieceRechangeReparation.getId());
 	    if (existingPRR != null) {
 	        int availableQty = existingPRR.getPieceRechange().getQteDisp() + existingPRR.getQte();
-	     	        if (pieceRechangeReparation.getQte() <= availableQty) {
+	     	    if (pieceRechangeReparation.getQte() <= availableQty) {
 	            int newAvailableQty = availableQty - pieceRechangeReparation.getQte();
 	            existingPRR.getPieceRechange().setQteDisp(newAvailableQty);
 
@@ -104,7 +107,7 @@ public class PieceRechangeReparationSeviceImpl implements PieceRechangeReparatio
 		List<PieceRechangeReparation>list = pieceRechangeReparationRepo.findByReparation(pRR);
 		double prix = r.getTarifHMO()*r.getTempsMO();
 		for (PieceRechangeReparation pieceRechangeReparation : list) {
-		   prix = prix + pieceRechangeReparation.getPieceRechange().getPrixTTC()*pieceRechangeReparation.getQte();
+		   prix = prix + pieceRechangeReparation.getPieceRechange().getPrixTTC()*pieceRechangeReparation.getQte() + pieceRechangeReparation.getPieceRechange().getTypePiece().getTarifH()*pieceRechangeReparation.getQte() ;
 		}
 		
         return prix;

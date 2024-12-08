@@ -29,12 +29,14 @@ public class PieceRechange {
     private double prixAchat;
     @NonNull
     private double prixHT;
-    @NonNull
+    @Getter(AccessLevel.NONE)
     private double prixTTC;
-
     @ManyToOne
     @JoinColumn(name = "type_piece_id", nullable = false)
     @NonNull 
     private TypePiece typePiece;
 
+    public double getPrixTTC() {
+        return this.prixHT + (this.prixHT * 0.19);
+    }
 }

@@ -2,7 +2,6 @@ package org.LahyaniEya.App_Buro.Controller;
 
 import java.util.List;
 
-import org.LahyaniEya.App_Buro.Model.Client;
 import org.LahyaniEya.App_Buro.Model.DemandeReparation;
 import org.LahyaniEya.App_Buro.Service.ClientServiceImpl;
 import org.LahyaniEya.App_Buro.Service.DemandeReparationServiceImpl;
