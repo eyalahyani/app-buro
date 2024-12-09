@@ -12,7 +12,6 @@ public interface PieceRechangeReparationService {
 	public PieceRechangeReparation addPieceRechangeReparation(PieceRechangeReparation pRR);
 	public PieceRechangeReparation updatePieceRechangeReparation(PieceRechangeReparation pRR);
 	public void deletePieceRechangeReparation(Long id);
-	public double calculeMontantTotal(Reparation pRR);
 	public int findQte(PieceRechange pR);
 	public List<PieceRechangeReparation> findByReparation(Reparation reparation);
 

@@ -29,6 +29,9 @@ public class PieceRechangeReparation {
     private Reparation reparation;
 
 	
-    
+    @Column(nullable = false)
+    private double prixPieceRechangeReparationHTX;
+
+   
     
 }

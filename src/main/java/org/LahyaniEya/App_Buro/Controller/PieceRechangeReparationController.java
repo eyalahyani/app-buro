@@ -59,10 +59,6 @@ public class PieceRechangeReparationController {
 	    	Reparation r=reparationSerImpl.findReparationById(reparationId);
 	    	return PieceRechangeReparationServImp.findByReparation(r);
 	        }
-	    @GetMapping("/calcule-montant-total/{reparationId}")
-	    public double calculeMontantTotal(@PathVariable Long reparationId) {
-	    	Reparation r=reparationSerImpl.findReparationById(reparationId);
-	    	return PieceRechangeReparationServImp.calculeMontantTotal(r);
-	        }
+	 
 
 }

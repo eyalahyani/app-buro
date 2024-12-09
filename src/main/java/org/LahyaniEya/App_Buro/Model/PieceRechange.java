@@ -31,12 +31,14 @@ public class PieceRechange {
     private double prixHT;
     @Getter(AccessLevel.NONE)
     private double prixTTC;
-    @ManyToOne
+    @ManyToOne (fetch=FetchType.EAGER)
     @JoinColumn(name = "type_piece_id", nullable = false)
     @NonNull 
     private TypePiece typePiece;
-
+    @Column(nullable = false)
+    private double TVA = 0.19;
     public double getPrixTTC() {
-        return this.prixHT + (this.prixHT * 0.19);
+        return this.prixHT + (this.prixHT * this.getTVA());
     }
+    
 }

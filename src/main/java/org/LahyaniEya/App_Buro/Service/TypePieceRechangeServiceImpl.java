@@ -40,8 +40,8 @@ public class TypePieceRechangeServiceImpl implements TypePieceRechangeService {
 		TypePiece typePieceR = this.findTypePieceById(tP.getId());
 		if (typePieceR!=null) {
         	typePieceR.setType(tP.getType());
-			typePieceR.setTarifH(tP.getTarifH());
-			return this.addTypePiece(typePieceR);
+			typePieceR.setTarifh(tP.getTarifh());
+			return typePieceRepo.save(typePieceR);
         }
 		else{
 			return this.addTypePiece(tP);

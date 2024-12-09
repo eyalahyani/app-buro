@@ -7,7 +7,6 @@ import org.LahyaniEya.App_Buro.Model.Reparation;
 import org.LahyaniEya.App_Buro.Service.DemandeReparationServiceImpl;
 import org.LahyaniEya.App_Buro.Service.ReparationServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,19 +17,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RequestParam;
-
 
 @RestController
 @RequestMapping("")
 @RequiredArgsConstructor
 public class ReparationController {
 
-    @NonNull @Autowired
+    @NonNull
+    @Autowired
     private ReparationServiceImpl reparationservImp;
-    @NonNull @Autowired
+    @NonNull
+    @Autowired
     private DemandeReparationServiceImpl demandeRepServ;
-
 
     @GetMapping("/Reparation")
     public List<Reparation> getAllReparation() {
@@ -41,12 +39,12 @@ public class ReparationController {
     public Reparation addReparation(@RequestBody Reparation reparation) {
         return reparationservImp.addReparation(reparation);
     }
-    
+
     @GetMapping("/Reparation/{id}")
     public Reparation getReparationById(@PathVariable Long id) {
         return reparationservImp.findReparationById(id);
     }
-    
+
     @PutMapping("/UpdateReparation")
     public Reparation updateReparation(@RequestBody Reparation reparation) {
         return reparationservImp.updateRepration(reparation);
@@ -70,25 +68,40 @@ public class ReparationController {
             return false;
         }
     }
-    
+
     @GetMapping("/getReparationId/{demandeId}")
     public Long getReparationId(@PathVariable("demandeId") Long demandeId) {
         try {
             DemandeReparation demandeReparation = demandeRepServ.findDemandeReparationById(demandeId);
             if (demandeReparation == null) {
-                return 0L;  
+                return 0L;
             }
             if (Boolean.TRUE.equals(reparationservImp.findByDemandeReparation(demandeReparation))) {
                 return reparationservImp.getReparationIdByDemandeReparationId(demandeId);
             } else {
-                return 0L; 
+                return 0L;
             }
         } catch (Exception e) {
             return 0L;
         }
     }
 
-    
-    
+    @GetMapping("/calcule-montant-totalHTX/{reparationId}")
+    public double calculeMontantTotalHTX(@PathVariable Long reparationId) {
+        Reparation r = reparationservImp.findReparationById(reparationId);
+        return reparationservImp.calculateMontantTotalHTX(r);
+    }
+
+    @GetMapping("/calcule-montant-totalTVA/{reparationId}")
+    public double calculeMontantTotalTVA(@PathVariable Long reparationId) {
+        Reparation r = reparationservImp.findReparationById(reparationId);
+        return reparationservImp.calculateMontantTotalTVA(r);
+    }
+
+    @GetMapping("/calcule-montant-totalTTC/{reparationId}")
+    public double calculeMontantTotalTTC(@PathVariable Long reparationId) {
+        Reparation r = reparationservImp.findReparationById(reparationId);
+        return reparationservImp.calculateMontantTotalTTC(r);
+    }
+
 }
-    

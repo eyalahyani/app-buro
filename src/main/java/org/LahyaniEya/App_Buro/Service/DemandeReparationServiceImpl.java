@@ -50,6 +50,7 @@ public class DemandeReparationServiceImpl implements DemandeReparationService {
 			demandeReparation.setDateDepotAppareil(DemandeRep.getDateDepotAppareil());
 			demandeReparation.setDatePrevueRep(DemandeRep.getDatePrevueRep());
 			demandeReparation.setEtat(DemandeRep.getEtat());
+			demandeReparation.setSymptomesPanne(DemandeRep.getSymptomesPanne());
         	return this.addDemandeRepration(demandeReparation);
         }
 		else{

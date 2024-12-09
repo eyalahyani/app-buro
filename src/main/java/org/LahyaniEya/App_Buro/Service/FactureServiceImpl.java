@@ -18,7 +18,7 @@ public class FactureServiceImpl implements FactureService {
 	@Autowired
 	private FactureRepository factureRepo;
 	@Autowired
-	private PieceRechangeReparationSeviceImpl pieceRechangeRepSerImp;
+	private ReparationServiceImpl reparationservImp;
 	
 	@Override
 	public List<Facture> findAllFacture() {
@@ -27,7 +27,7 @@ public class FactureServiceImpl implements FactureService {
 
 	@Override
 	public Facture addFacture(Facture f) {
-		f.setMontantTotal(pieceRechangeRepSerImp.calculeMontantTotal(f.getReparation()));
+		f.setMontantTotal(reparationservImp.calculateMontantTotalTTC(f.getReparation()));
 		return  factureRepo.save(f);
 	}
 

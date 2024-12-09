@@ -18,5 +18,5 @@ public class TypePiece {
     private String type;
     
     @NonNull
-    private double tarifH;
+    private double tarifh;
 }

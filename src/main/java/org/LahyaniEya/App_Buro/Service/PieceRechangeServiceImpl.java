@@ -25,30 +25,33 @@ public class PieceRechangeServiceImpl implements PiéceRechangeService {
 
 	@Override
 	public PieceRechange findById(Long id) {
-		return pieceRechangeRepo.findById(id)
+		PieceRechange p= pieceRechangeRepo.findById(id)
 	            .orElseThrow(() -> new RuntimeException("Piece Rechange not found with ID: " + id));
+		//  p.setPrixTTC(p.getPrixTTC());
+		//	p.setTVA(p.getTVA());
+		return p;
+			
 	}
 
 	@Override
 	public PieceRechange addPieceRechange(PieceRechange pR) {
+	  pR.setPrixTTC(pR.getPrixTTC());
+	//	pR.setTVA(pR.getTVA());
 		return 	pieceRechangeRepo.save(pR);
 	}
 
 	@Override
 	public PieceRechange updatePieceRechange(PieceRechange pR) {
 		PieceRechange pieceRech =this.findById(pR.getId());
-        if (pieceRech!=null) {
         pieceRech.setCode(pR.getCode());
         pieceRech.setNom(pR.getNom());
+        pieceRech.setTVA(pR.getTVA());
+		pieceRech.setQteDisp(pR.getQteDisp());
         pieceRech.setPrixAchat(pR.getPrixAchat());
         pieceRech.setPrixHT(pR.getPrixHT());
-        pieceRech.setPrixTTC(pR.getPrixTTC());
         pieceRech.setTypePiece(pR.getTypePiece());
     	return this.addPieceRechange(pieceRech);
-		}
-        else {
-        	return this.addPieceRechange(pR);
-        }
+		
 	}
 
 	@Override

@@ -14,4 +14,7 @@ public interface ReparationService {
 	public void deleteReparation(Reparation r);
 	public Boolean findByDemandeReparation(DemandeReparation demandeReparation);
 	public Long getReparationIdByDemandeReparationId(Long demandeReparationId) ;
+	public double calculateMontantTotalHTX(Reparation reparation);
+	public double calculateMontantTotalTVA(Reparation reparation);
+	public double calculateMontantTotalTTC(Reparation reparation);
 }

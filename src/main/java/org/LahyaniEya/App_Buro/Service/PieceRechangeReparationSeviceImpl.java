@@ -5,6 +5,7 @@ import java.util.List;
 import org.LahyaniEya.App_Buro.Model.PieceRechange;
 import org.LahyaniEya.App_Buro.Model.PieceRechangeReparation;
 import org.LahyaniEya.App_Buro.Model.Reparation;
+import org.LahyaniEya.App_Buro.Model.TypePiece;
 import org.LahyaniEya.App_Buro.Repository.PieceRechangeReparationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,17 +24,19 @@ public class PieceRechangeReparationSeviceImpl implements PieceRechangeReparatio
 	private PieceRechangeReparationRepository pieceRechangeReparationRepo;
 	@Autowired
 	private PieceRechangeServiceImpl pieceRechangeSerImp;
-	@Autowired 
-	private ReparationServiceImpl reparationServImp;
+
 	
 	@Override
 	public PieceRechangeReparation addPieceRechangeReparation(PieceRechangeReparation pRR) {
 		PieceRechange pieceRechange = pieceRechangeSerImp.findById(pRR.getPieceRechange().getId());
+		//TypePiece typePiece = pieceRechange.getTypePiece();
+		//System.out.println(typePiece.toString());
 		List<PieceRechangeReparation>  pieceRR = pieceRechangeReparationRepo.findByReparation(pRR.getReparation());
 		for (PieceRechangeReparation pr : pieceRR){
 			
 			if (pRR.getPieceRechange().equals(pr.getPieceRechange()) && ((pieceRechange.getQteDisp() >= (pRR.getQte() - pr.getQte())))) {
 				pr.setQte(pRR.getQte());
+				pr.setPrixPieceRechangeReparationHTX(this.calculatePrixPieceRechangeReparationHTX(pRR)); 
 				return pieceRechangeReparationRepo.save(pr);
 			}
 		}
@@ -41,6 +44,7 @@ public class PieceRechangeReparationSeviceImpl implements PieceRechangeReparatio
 	    if (pieceRechange.getQteDisp() >= pRR.getQte()) {
 	        pieceRechange.setQteDisp(pieceRechange.getQteDisp() - pRR.getQte());
 	        pieceRechangeSerImp.addPieceRechange(pieceRechange);
+			pRR.setPrixPieceRechangeReparationHTX(this.calculatePrixPieceRechangeReparationHTX(pRR)); 
 	        return pieceRechangeReparationRepo.save(pRR);
 	    } else {
 	        throw new IllegalArgumentException("Stock insuffisant pour cette pièce.");
@@ -82,7 +86,8 @@ public class PieceRechangeReparationSeviceImpl implements PieceRechangeReparatio
 	            existingPRR.setPieceRechange(pieceRechangeReparation.getPieceRechange());
 	            existingPRR.setQte(pieceRechangeReparation.getQte());
 	            existingPRR.setReparation(pieceRechangeReparation.getReparation());
-
+				existingPRR.setPrixPieceRechangeReparationHTX(this.calculatePrixPieceRechangeReparationHTX(pieceRechangeReparation)); 
+				
 	            return pieceRechangeReparationRepo.save(existingPRR);
 	        } else {
 	            throw new IllegalArgumentException("Stock insuffisant pour cette pièce.");
@@ -101,17 +106,6 @@ public class PieceRechangeReparationSeviceImpl implements PieceRechangeReparatio
         }		
 	}
 
-	@Override
-	public double calculeMontantTotal(Reparation pRR) {
-		Reparation r=reparationServImp.findReparationById(pRR.getId());
-		List<PieceRechangeReparation>list = pieceRechangeReparationRepo.findByReparation(pRR);
-		double prix = r.getTarifHMO()*r.getTempsMO();
-		for (PieceRechangeReparation pieceRechangeReparation : list) {
-		   prix = prix + pieceRechangeReparation.getPieceRechange().getPrixTTC()*pieceRechangeReparation.getQte() + pieceRechangeReparation.getPieceRechange().getTypePiece().getTarifH()*pieceRechangeReparation.getQte() ;
-		}
-		
-        return prix;
-	}
 
 
 	@Override
@@ -120,8 +114,15 @@ public class PieceRechangeReparationSeviceImpl implements PieceRechangeReparatio
 	}
 
 
-
-	
+	public double calculatePrixPieceRechangeReparationHTX(PieceRechangeReparation  pieceRechangeReparation) {
+		double prixPieceRechangeReparationHTX = 0.0;
+		PieceRechange pieceRechange = pieceRechangeSerImp.findById(pieceRechangeReparation.getPieceRechange().getId());
+		TypePiece typePiece = pieceRechange.getTypePiece();
+        if (pieceRechangeReparation.getPieceRechange() != null && pieceRechangeReparation.getReparation() != null) {
+            prixPieceRechangeReparationHTX = (pieceRechange.getPrixHT()  
+                + typePiece.getTarifh())* pieceRechangeReparation.getQte();
+        }
+		return prixPieceRechangeReparationHTX;
+    }
 
 }
-
