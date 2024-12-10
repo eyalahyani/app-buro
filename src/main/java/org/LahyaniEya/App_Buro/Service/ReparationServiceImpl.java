@@ -83,7 +83,7 @@ public class ReparationServiceImpl implements ReparationService {
 
 	@Override
 	public double calculateMontantTotalHTX(Reparation reparation) {
-
+		
 		List<PieceRechangeReparation> pieceRechangeReparations = pieceRechangeReparationService
 				.findByReparation(reparation);
 
@@ -100,7 +100,7 @@ public class ReparationServiceImpl implements ReparationService {
 	@Override
 	public double calculateMontantTotalTVA(Reparation reparation){
 
-		return this.calculateMontantTotalHTX(reparation)*pieceRechangeReparationService.findByReparation(reparation).get(0).getPieceRechange().getTVA();
+		return this.calculateMontantTotalHTX(reparation)*0.19;
 	}
 
 	@Override

@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
@@ -46,10 +45,6 @@ public class FactureController {
 	        return factureServImpl.findByNumero(numero);
 	    }
 	  
-	  @PutMapping("/updateFacture")
-	    public Facture updateFacture(@RequestBody Facture f) {
-	        return factureServImpl.updateFacture(f);
-	    }
 	  
 	  @DeleteMapping("/Facture/{id}")
 	    public void deleteFacture(@PathVariable Long id) {

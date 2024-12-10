@@ -21,6 +21,12 @@ public class Facture {
     @NonNull @Setter
     private LocalDate date;
     @Setter
+    private double montantTotalHTX;
+
+    @Setter
+    private double montantTotalTVA;
+
+    @Setter
     private double montantTotal;
 
     @OneToOne     @NonNull @Setter

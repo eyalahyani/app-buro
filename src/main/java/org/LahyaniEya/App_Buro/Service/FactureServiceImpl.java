@@ -2,6 +2,7 @@ package org.LahyaniEya.App_Buro.Service;
 
 import java.util.List;
 import org.LahyaniEya.App_Buro.Model.Facture;
+import org.LahyaniEya.App_Buro.Model.Reparation;
 import org.LahyaniEya.App_Buro.Repository.FactureRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,13 @@ public class FactureServiceImpl implements FactureService {
 
 	@Override
 	public Facture addFacture(Facture f) {
-		f.setMontantTotal(reparationservImp.calculateMontantTotalTTC(f.getReparation()));
+		Reparation r = reparationservImp.findReparationById(f.getReparation().getId());
+		System.out.println(r.toString());
+		System.out.println(f.toString());
+		f.setMontantTotal(reparationservImp.calculateMontantTotalTTC(r));
+		f.setMontantTotalTVA(reparationservImp.calculateMontantTotalTVA(r));
+		f.setMontantTotalHTX(reparationservImp.calculateMontantTotalHTX(r));
+		f.setReparation(r);
 		return  factureRepo.save(f);
 	}
 
@@ -37,20 +44,6 @@ public class FactureServiceImpl implements FactureService {
 	            .orElseThrow(() -> new RuntimeException("Facture not found with ID: " + id));
 	}
 
-	@Override
-	public Facture updateFacture(Facture facture) {
-		Facture f=this.findByIdFacture(facture.getId());
-        if (f!=null) {
-        f.setDate(facture.getDate());
-        f.setMontantTotal(facture.getMontantTotal());
-        f.setNumero(facture.getNumero());
-        f.setReparation(facture.getReparation());
-        return this.addFacture(f);
-        }
-        else {
-           return this.addFacture(facture);
-        }
-      }
 
 	@Override
 	public void deleteFacture(Long id) {
@@ -68,4 +61,3 @@ public class FactureServiceImpl implements FactureService {
 	
 	
 }
-

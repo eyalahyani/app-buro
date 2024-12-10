@@ -5,6 +5,8 @@ import java.util.List;
 import org.LahyaniEya.App_Buro.Model.Authentification;
 import org.LahyaniEya.App_Buro.Service.AuthentificationServImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -51,5 +53,19 @@ public class AuthentificationController {
 	public void deleteAuthentification(@PathVariable Long id) {
 		 authentificationServImpl.deleteAuthentification(id);
 	}
+@PostMapping("/login")
+public ResponseEntity<String> authenticateUser(@RequestBody Authentification authRequest) {
+    try {
+        Authentification auth = authentificationServImpl.findByEmailAndMdp(authRequest.getEmail(), authRequest.getMdp());
+        if (auth != null) {
+            String roleMessage = auth.getRole() == 1 ? "Role 1: Technician" : "Role 0: Client";
+            return ResponseEntity.ok(roleMessage);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+        }
+    } catch (Exception e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred");
+    }
+}
 
 }

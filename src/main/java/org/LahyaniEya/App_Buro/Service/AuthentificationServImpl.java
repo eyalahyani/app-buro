@@ -54,5 +54,10 @@ public class AuthentificationServImpl implements AuthentificationService {
 		Authentification a=this.findById(authentification.getId());
 		return a.getRole();
 	}
+
+	public Authentification findByEmailAndMdp(String email,String mdp){
+		return authentificationRepo.findByEmailAndMdp(email, mdp);
+	}
+
 	
 }

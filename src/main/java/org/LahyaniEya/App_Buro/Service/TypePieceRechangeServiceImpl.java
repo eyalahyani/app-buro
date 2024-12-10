@@ -26,8 +26,10 @@ public class TypePieceRechangeServiceImpl implements TypePieceRechangeService {
 
 	@Override
 	public TypePiece findTypePieceById(Long id) {
-		return typePieceRepo.findById(id)
+		TypePiece tp= typePieceRepo.findById(id)
 	            .orElseThrow(() -> new RuntimeException("Type Piece not found with ID: " + id));
+				tp.setTarifh(tp.getTarifh());
+				return tp;
 	}
 
 	@Override
